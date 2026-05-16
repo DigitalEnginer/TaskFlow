@@ -23,6 +23,11 @@ const columnSchema = new mongoose.Schema(
             type: String,
             default: null,
         },
+        description: {
+            type: String,
+            maxlength: [500, 'Максимум 500 символов'],
+            default: '',
+        },
     },
     { timestamps: true }
 )

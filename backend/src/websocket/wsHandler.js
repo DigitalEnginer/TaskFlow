@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const url = require('url')
 
 const boardRooms = new Map()
+const userConnections = new Map()
 
 function initWebSocket(server) {
     const wss = new WebSocketServer({ server })
@@ -11,7 +12,7 @@ function initWebSocket(server) {
         const { query } = url.parse(req.url, true)
         const { token, boardId } = query
 
-        let userId, userName, userAvatar
+        let userId
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             userId = decoded.id
@@ -21,20 +22,29 @@ function initWebSocket(server) {
         }
 
         ws.userId = userId
-        ws.boardId = boardId
+        ws.boardId = boardId || null
 
-        if (!boardRooms.has(boardId)) {
-            boardRooms.set(boardId, new Set())
+        if (!userConnections.has(userId)) {
+            userConnections.set(userId, new Set())
         }
-        boardRooms.get(boardId).add(ws)
+        userConnections.get(userId).add(ws)
 
-        console.log(`WS: user ${userId} joined board ${boardId}`)
+        if (boardId) {
+            if (!boardRooms.has(boardId)) {
+                boardRooms.set(boardId, new Set())
+            }
+            boardRooms.get(boardId).add(ws)
 
-        broadcastToBoard(boardId, {
-            type: 'USERS_ONLINE',
-            payload: { users: getOnlineUsers(boardId) },
-            boardId
-        }, null)
+            console.log(`WS: user ${userId} joined board ${boardId}`)
+
+            broadcastToBoard(boardId, {
+                type: 'USERS_ONLINE',
+                payload: { users: getOnlineUsers(boardId) },
+                boardId
+            }, null)
+        } else {
+            console.log(`WS: user ${userId} connected (global)`)
+        }
 
         ws.on('message', (data) => {
             try {
@@ -46,21 +56,27 @@ function initWebSocket(server) {
         })
 
         ws.on('close', () => {
-            const room = boardRooms.get(boardId)
-            if (room) {
-                room.delete(ws)
-                if (room.size === 0) {
-                    boardRooms.delete(boardId)
-                }
+            const userSockets = userConnections.get(userId)
+            if (userSockets) {
+                userSockets.delete(ws)
+                if (userSockets.size === 0) userConnections.delete(userId)
             }
 
-            console.log(`WS: user ${userId} left board ${boardId}`)
+            if (boardId) {
+                const room = boardRooms.get(boardId)
+                if (room) {
+                    room.delete(ws)
+                    if (room.size === 0) boardRooms.delete(boardId)
+                }
 
-            broadcastToBoard(boardId, {
-                type: 'USERS_ONLINE',
-                payload: { users: getOnlineUsers(boardId) },
-                boardId
-            }, null)
+                console.log(`WS: user ${userId} left board ${boardId}`)
+
+                broadcastToBoard(boardId, {
+                    type: 'USERS_ONLINE',
+                    payload: { users: getOnlineUsers(boardId) },
+                    boardId
+                }, null)
+            }
         })
 
         ws.on('error', (err) => {
@@ -120,4 +136,13 @@ function getOnlineUsers(boardId) {
     return users
 }
 
-module.exports = { initWebSocket, broadcastToBoard }
+function sendToUser(userId, message) {
+    const sockets = userConnections.get(userId.toString())
+    if (!sockets) return
+    const data = JSON.stringify(message)
+    sockets.forEach((ws) => {
+        if (ws.readyState === 1) ws.send(data)
+    })
+}
+
+module.exports = { initWebSocket, broadcastToBoard, sendToUser }

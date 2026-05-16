@@ -1,6 +1,7 @@
 const Board = require('../models/Board')
 const Column = require('../models/Column')
 const Card = require('../models/Card')
+const { sendToUser } = require('../websocket/wsHandler')
 
 //GET/api/boards
 async function getBoards(req, res, next) {
@@ -37,7 +38,6 @@ async function createBoard(req, res, next) {
             members: [req.user._id]
         })
 
-        // populate через findById — работает надёжнее после create
         const populatedBoard = await Board.findById(board._id)
             .populate('owner', 'name avatar')
             .populate('members', 'name avatar')
@@ -139,9 +139,17 @@ async function deleteBoard(req, res, next) {
             return res.status(403).json({ message: 'Только владелец может удалить доску' })
         }
 
+        const memberIds = board.members.map((m) => m.toString())
+
         await Card.deleteMany({ board: boardId })
         await Column.deleteMany({ board: boardId })
         await Board.findByIdAndDelete(boardId)
+
+        memberIds.forEach((uid) => {
+            if (uid !== req.user._id.toString()) {
+                sendToUser(uid, { type: 'BOARD_REMOVED', payload: { boardId } })
+            }
+        })
 
         res.status(200).json({ message: 'Доска удалена' })
     } catch (err) {
@@ -182,6 +190,8 @@ async function addMember(req, res, next) {
             { new: true }
         ).populate('owner', 'name avatar')
             .populate('members', 'name avatar')
+
+        sendToUser(userId, { type: 'BOARD_ADDED', payload: { boardId } })
 
         res.status(200).json({ message: 'Success', data: updated })
     } catch (err) {

@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    bio: {
+      type: String,
+      maxlength: [300, 'Максимум 300 символов'],
+      default: '',
+    },
   },
   { timestamps: true }
 )

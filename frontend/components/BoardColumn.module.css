@@ -1,0 +1,225 @@
+.column {
+  background: #ebecf0;
+  border-radius: 10px;
+  width: 272px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 130px);
+  border-top: 3px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.dragOver,
+.cardDragOver {
+  border-top-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.colDragging {
+  opacity: 0.4;
+  transform: rotate(1deg) scale(0.98);
+  cursor: grabbing;
+}
+
+.colDragOver {
+  outline: 2.5px dashed var(--primary);
+  outline-offset: 2px;
+  background: #dde0f5;
+}
+
+.header {
+  padding: 0.75rem 0.75rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-top: 3px solid transparent;
+  cursor: grab;
+}
+
+.header:active { cursor: grabbing; }
+
+.title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.count {
+  background: rgba(0,0,0,0.12);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+}
+
+.editForm {
+  flex: 1;
+}
+
+.editInput {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1.5px solid var(--primary);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  outline: none;
+  background: #fff;
+}
+
+.deleteColBtn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.1s, background 0.1s;
+}
+
+.deleteColBtn:hover {
+  color: var(--danger);
+  background: rgba(239,68,68,0.1);
+}
+
+.cards {
+  padding: 0 0.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardInputSm {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  resize: none;
+}
+
+.cardInputSm:focus { border-color: var(--primary); }
+
+.cardSelect {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  outline: none;
+  background: var(--surface);
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.cardSelect:focus { border-color: var(--primary); }
+
+.cardRow {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.cardRow input[type="date"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.addCardBtn {
+  margin: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.addCardBtn:hover {
+  background: rgba(0,0,0,0.08);
+  color: var(--text);
+}
+
+.addCardForm {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+}
+
+.prioritySelect {
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  outline: none;
+  background: var(--surface);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.prioritySelect:focus { border-color: var(--primary); }
+
+.addCardActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnAddCard {
+  padding: 0.4rem 0.875rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnCancelCard {
+  padding: 0.4rem 0.625rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.btnCancelCard:hover {
+  color: var(--text);
+}

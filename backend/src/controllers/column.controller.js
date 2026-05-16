@@ -90,7 +90,6 @@ async function deleteColumn(req, res, next) {
             return res.status(404).json({ message: 'Колонка не найдена' })
         }
 
-        // Удаляем все карточки этой колонки
         await Card.deleteMany({ column: columnId })
         await Column.findByIdAndDelete(columnId)
 

@@ -87,6 +87,7 @@ async function getMe(req, res, next) {
                 name: user.name,
                 email: user.email,
                 avatar: user.avatar,
+                bio: user.bio,
                 createdAt: user.createdAt,
             },
         })
@@ -98,11 +99,11 @@ async function getMe(req, res, next) {
 //PUT/api/auth/me
 async function updateMe(req, res, next) {
     try {
-        const { name, avatar } = req.body
+        const { name, avatar, bio } = req.body
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,
-            { name, avatar },
+            { name, avatar, bio },
             { new: true, runValidators: true }
         )
 
@@ -113,6 +114,8 @@ async function updateMe(req, res, next) {
                 name: updatedUser.name,
                 email: updatedUser.email,
                 avatar: updatedUser.avatar,
+                bio: updatedUser.bio,
+                createdAt: updatedUser.createdAt,
             },
         })
     } catch (err) {

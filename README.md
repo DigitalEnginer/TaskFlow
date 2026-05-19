@@ -4,6 +4,15 @@ A Trello-inspired project management application built with the MERN stack. Orga
 
 ---
 
+## Live Demo
+
+| Service | URL |
+|---------|-----|
+| Frontend | https://task-flow-seven-vert.vercel.app |
+| Backend API | https://taskflow-5g0v.onrender.com/api |
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -144,6 +153,15 @@ For production, update the environment variables to point to your deployed servi
 # TaskFlow (на русском)
 
 Приложение для управления задачами в стиле Trello, построенное на стеке MERN. Организуйте работу через доски, колонки и карточки с совместной работой в реальном времени.
+
+---
+
+## Живое демо
+
+| Сервис | URL |
+|--------|-----|
+| Фронтенд | https://task-flow-seven-vert.vercel.app |
+| Backend API | https://taskflow-5g0v.onrender.com/api |
 
 ---
 

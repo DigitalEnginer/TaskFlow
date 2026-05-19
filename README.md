@@ -21,7 +21,7 @@ A Trello-inspired project management application built with the MERN stack. Orga
 | Backend | Node.js, Express.js, WebSocket (ws) |
 | Database | MongoDB, Mongoose |
 | Auth | JWT (localStorage) |
-| File Upload | Multer |
+| File Upload | Multer, UploadThing |
 | Testing | Jest, Supertest, mongodb-memory-server |
 
 ---
@@ -72,7 +72,7 @@ TaskFlow/
 ### 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/DigitalEnginer/TaskFlow.git
 cd TaskFlow
 ```
 
@@ -141,12 +141,10 @@ cd frontend && npm test
 | Service | Platform |
 |---------|----------|
 | Frontend | Vercel |
-| Backend | Render / Railway |
+| Backend | Render |
 | Database | MongoDB Atlas |
 
 For production, update the environment variables to point to your deployed services.
-
----
 
 ---
 
@@ -173,7 +171,7 @@ For production, update the environment variables to point to your deployed servi
 | Бэкенд | Node.js, Express.js, WebSocket (ws) |
 | База данных | MongoDB, Mongoose |
 | Авторизация | JWT (localStorage) |
-| Загрузка файлов | Multer |
+| Загрузка файлов | Multer, UploadThing |
 | Тестирование | Jest, Supertest, mongodb-memory-server |
 
 ---
@@ -224,7 +222,7 @@ TaskFlow/
 ### 1. Клонировать репозиторий
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/DigitalEnginer/TaskFlow.git
 cd TaskFlow
 ```
 
